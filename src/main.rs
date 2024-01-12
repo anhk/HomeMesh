@@ -1,4 +1,6 @@
 mod cli;
+mod client;
+mod server;
 
 fn main() {
     let args = cli::parse();
