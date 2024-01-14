@@ -7,7 +7,7 @@ use clap::{Parser, Subcommand};
     help_template = "{about-section}@Author: {author}, Version: {version}\n\n{usage-heading}\n  {usage}\n\n{all-args}{tab}"
 )]
 /// Build a mesh network for your home lab
-pub struct Cli {
+pub struct Arguments {
     #[clap(subcommand)]
     command: Command,
 }
@@ -19,6 +19,6 @@ pub enum Command {
 }
 
 pub fn parse() -> Command {
-    let cli = Cli::parse();
-    cli.command
+    let args = Arguments::parse();
+    args.command
 }

@@ -1,5 +1,5 @@
 use env_logger::{Builder, Target};
-mod cli;
+mod args;
 mod client;
 mod server;
 
@@ -13,12 +13,12 @@ async fn main() {
         .init();
     // env_logger::init();
 
-    let args = cli::parse();
+    let args = args::parse();
     match args {
-        cli::Command::Server(option) => {
+        args::Command::Server(option) => {
             server::listen(&option);
         }
-        cli::Command::Client(option) => {
+        args::Command::Client(option) => {
             client::connect(&option);
         }
     }
