@@ -15,12 +15,8 @@ async fn main() {
 
     let args = args::parse();
     match args {
-        args::Command::Server(option) => {
-            server::listen(&option);
-        }
-        args::Command::Client(option) => {
-            client::connect(&option);
-        }
+        args::Command::Server(option) => server::listen(&option),
+        args::Command::Client(option) => client::connect(&option),
     }
     println!("Hello, world!");
 }
