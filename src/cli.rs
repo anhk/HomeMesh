@@ -1,5 +1,5 @@
-use clap::{Parser, Subcommand};
 use crate::{client, server};
+use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
 #[command(author = "Terry.AN", version, about, long_about = None)]
@@ -14,8 +14,8 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Command {
-    Server(server::Server),
-    Client(client::Client),
+    Server(server::ServerOption),
+    Client(client::ClientOption),
 }
 
 pub fn parse() -> Command {

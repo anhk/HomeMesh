@@ -1,11 +1,14 @@
-use std::net::TcpListener;
+use std::{
+    net::{TcpListener, TcpStream},
+    thread,
+};
 
 use clap::Args;
 use log::{error, info};
 
 #[derive(Args)]
 /// use server mode
-pub struct Server {
+pub struct ServerOption {
     /// cidr to claim
     #[arg(num_args(0..), short, long, required = false)]
     pub cidr: Vec<String>,
@@ -23,24 +26,24 @@ pub struct Server {
     pub port: u16,
 }
 
-impl Server {
-    pub fn listen(&self) {
-        let addr = format!("{}:{}", self.bind_addr, self.port);
-        let listener = TcpListener::bind(&addr).unwrap();
-        info!("listen on {} ok.", addr);
+pub fn listen(option: &ServerOption) {
+    let addr = format!("{}:{}", option.bind_addr, option.port);
+    let listener = TcpListener::bind(&addr).unwrap();
+    info!("listen on {} ok.", addr);
 
-        for stream in listener.incoming() {
-            match stream {
-                Ok(stream) => {
-                    info!("New connection: {}", stream.peer_addr().unwrap());
-                    // thread::spawn(|| self.handle_client(stream));
-                }
-                Err(e) => {
-                    error!("accept failed: {}", e);
-                }
+    for stream in listener.incoming() {
+        match stream {
+            Ok(stream) => {
+                info!("New connection: {}", stream.peer_addr().unwrap());
+                thread::spawn(move || handle_client(stream));
+            }
+            Err(e) => {
+                error!("accept failed: {}", e);
             }
         }
     }
+}
 
-    // fn handle_client(&mut self, mut stream: TcpStream) {}
+fn handle_client(stream: TcpStream) {
+    info!("connection [{}] closed", stream.peer_addr().expect(""));
 }

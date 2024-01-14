@@ -14,11 +14,11 @@ fn main() {
 
     let args = cli::parse();
     match args {
-        cli::Command::Server(server) => {
-            server.listen();
+        cli::Command::Server(option) => {
+            server::listen(&option);
         }
-        cli::Command::Client(client) => {
-            client.connect();
+        cli::Command::Client(option) => {
+            client::connect(&option);
         }
     }
     println!("Hello, world!");

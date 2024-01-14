@@ -2,7 +2,7 @@ use clap::Args;
 
 #[derive(Args)]
 /// use client mode
-pub struct Client {
+pub struct ClientOption {
     /// the address of server, it will connect ${server_addr}:${port} [default: <empty>],
     #[arg(short, long)]
     pub server_addr: String,
@@ -20,6 +20,4 @@ pub struct Client {
     pub token: String,
 }
 
-impl Client {
-    pub fn connect(&self) {}
-}
+pub fn connect(_option: &ClientOption) {}
