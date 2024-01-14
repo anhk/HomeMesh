@@ -8,3 +8,5 @@ authors = ["terry.an.bj@gmail.com"]
 
 [dependencies]
 clap = { version = "4.4.16", features = ["derive"] }
+env_logger = "0.10.1"
+log = "0.4.20"
