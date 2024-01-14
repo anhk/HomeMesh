@@ -13,8 +13,7 @@ async fn main() {
         .init();
     // env_logger::init();
 
-    let args = args::parse();
-    match args {
+    match args::parse() {
         args::Command::Server(option) => server::listen(&option),
         args::Command::Client(option) => client::connect(&option),
     }
