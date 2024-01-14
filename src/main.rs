@@ -3,7 +3,8 @@ mod cli;
 mod client;
 mod server;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     // env_logger init
     let mut log_builder = Builder::from_default_env();
     log_builder

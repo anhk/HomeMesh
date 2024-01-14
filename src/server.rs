@@ -1,7 +1,4 @@
-use std::{
-    net::{TcpListener, TcpStream},
-    thread,
-};
+use std::net::{TcpListener, TcpStream};
 
 use clap::Args;
 use log::{error, info};
@@ -35,7 +32,7 @@ pub fn listen(option: &ServerOption) {
         match stream {
             Ok(stream) => {
                 info!("New connection: {}", stream.peer_addr().unwrap());
-                thread::spawn(move || handle_client(stream));
+                tokio::spawn(async move { handle_client(stream).await });
             }
             Err(e) => {
                 error!("accept failed: {}", e);
@@ -44,6 +41,6 @@ pub fn listen(option: &ServerOption) {
     }
 }
 
-fn handle_client(stream: TcpStream) {
+async fn handle_client(stream: TcpStream) {
     info!("connection [{}] closed", stream.peer_addr().expect(""));
 }
