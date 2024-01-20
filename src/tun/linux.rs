@@ -44,7 +44,7 @@ pub fn alloc_tun() -> Result<Tun, io::Error> {
         handle: file,
         ifname: String::from_utf8(req.ifr_name[..size].to_vec()).unwrap(),
     };
-    tun.set_address("33.33.33.253/24")?.up()?;
+    tun.set_address("22.22.22.253/31")?.up()?;
     Ok(tun)
 }
 
@@ -64,9 +64,38 @@ impl Tun {
             .output()?;
         Ok(self)
     }
+
+    fn add_route(&self, cidr: &str) -> Result<(), io::Error> {
+        Command::new("ip")
+            .arg("route")
+            .arg("add")
+            .arg(cidr)
+            .arg("dev")
+            .arg(&self.ifname)
+            .output()?;
+        Ok(())
+    }
+
+    fn remove_route(&self, cidr: &str) -> Result<(), io::Error> {
+        Command::new("ip")
+            .arg("route")
+            .arg("del")
+            .arg(cidr)
+            .arg("dev")
+            .arg(&self.ifname)
+            .output()?;
+        Ok(())
+    }
 }
 
-impl super::Tun for Tun {}
+impl super::Tun for Tun {
+    fn add_route(&self, cidr: &str) -> Result<(), io::Error> {
+        self.add_route(cidr)
+    }
+    fn remove_route(&self, cidr: &str) -> Result<(), io::Error> {
+        self.remove_route(cidr)
+    }
+}
 
 impl Read for Tun {
     fn read(&mut self, buf: &mut [u8]) -> Result<usize, Error> {

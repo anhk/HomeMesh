@@ -6,6 +6,7 @@ mod tun;
 use env_logger::{Builder, Target};
 use log::info;
 use std::io::Read;
+use tun::Tun;
 
 #[tokio::main]
 async fn main() {
@@ -23,6 +24,7 @@ async fn main() {
 
     let mut data = [0u8; 2048];
     let mut tun = tun::alloc_tun().unwrap();
+    tun.add_route("34.34.34.0/24").unwrap();
 
     while match tun.read(&mut data) {
         Ok(size) => {
