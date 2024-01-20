@@ -29,9 +29,12 @@ async fn main() {
     while match tun.read(&mut data) {
         Ok(size) => {
             info!("read {} from tun", size);
+            process(&data[..size]);
             true
         }
         Err(_e) => false,
     } {}
     println!("Hello, world!");
 }
+
+fn process(_data: &[u8]) {}
