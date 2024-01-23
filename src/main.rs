@@ -1,5 +1,6 @@
 mod args;
 mod client;
+mod grpc;
 mod server;
 mod tun;
 
