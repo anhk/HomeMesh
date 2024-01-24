@@ -1,18 +1,22 @@
+use async_trait::async_trait;
 use std::io::{self};
 
-pub trait Stream {
-    fn run();
+pub mod stream {
+    tonic::include_proto!("stream");
 }
 
-pub struct MyStream {}
-impl Stream for MyStream {
-    fn run() {}
+mod client;
+mod server;
+
+#[async_trait]
+pub trait GrpcStream {
+    async fn run(&self);
 }
 
-pub fn alloc_grpc_server() -> Result<impl Stream, io::Error> {
-    Ok(MyStream {})
+pub fn alloc_grpc_server() -> Result<impl GrpcStream, io::Error> {
+    Ok(server::MyStreamServer {})
 }
 
-pub fn alloc_grpc_client() -> Result<impl Stream, io::Error> {
-    Ok(MyStream {})
+pub fn alloc_grpc_client() -> Result<impl GrpcStream, io::Error> {
+    Ok(client::MyStreamClient {})
 }
