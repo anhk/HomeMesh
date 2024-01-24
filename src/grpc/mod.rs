@@ -10,7 +10,7 @@ mod server;
 
 #[async_trait]
 pub trait GrpcStream {
-    async fn run(&self);
+    async fn run();
 }
 
 pub fn alloc_grpc_server() -> Result<impl GrpcStream, io::Error> {

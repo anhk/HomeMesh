@@ -9,14 +9,15 @@ use tonic::{transport::Server, Request, Response, Status, Streaming};
 
 pub struct MyStreamServer {}
 
-#[async_trait]
+#[tonic::async_trait]
 impl super::GrpcStream for MyStreamServer {
-    async fn run(&self) {
-        // Server::builder()
-        //     .add_service(StreamServer::new(self))
-        //     .serve("[::1]:50051".to_socket_addrs().unwrap().next().unwrap())
-        //     .await
-        //     .unwrap();
+    async fn run() {
+        let myserver = MyStreamServer {};
+        Server::builder()
+            .add_service(StreamServer::new(myserver))
+            .serve("[::1]:50051".to_socket_addrs().unwrap().next().unwrap())
+            .await
+            .unwrap();
     }
 }
 

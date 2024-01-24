@@ -9,8 +9,8 @@ pub struct MyStreamClient {}
 
 #[async_trait]
 impl super::GrpcStream for MyStreamClient {
-    async fn run(&self) {
-        self.connect()
+    async fn run() {
+        MyStreamClient {}.connect()
     }
 }
 
